@@ -1,0 +1,473 @@
+Page: Adarsh Pandey | Phantom 3D Portfolio Refined
+
+```html
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phantom | Adarsh Pandey</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <style>
+        @import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,700,500&f[]=satoshi@400,500,700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap');
+
+        :root {
+            --phantom-bg: #050505;
+            --phantom-accent: #B19EEF;
+            --phantom-white: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Satoshi', sans-serif;
+            background-color: var(--phantom-bg);
+            color: var(--phantom-white);
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background: var(--phantom-accent);
+            color: #000000;
+        }
+
+        .font-display {
+            font-family: 'Cabinet Grotesk', sans-serif;
+            letter-spacing: -0.05em;
+        }
+
+        .font-impact {
+            font-family: 'Anton', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .text-gradient {
+            background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.4) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glow-overlay {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(177, 158, 239, 0.03) 0%, transparent 70%);
+            filter: blur(60px);
+            pointer-events: none;
+            z-index: 0;
+            mix-blend-mode: multiply;
+        }
+
+        .card-hover:hover {
+            border-color: rgba(177, 158, 239, 0.3);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 0 20px rgba(177, 158, 239, 0.1);
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 20px rgba(177, 158, 239, 0.4);
+        }
+
+        /* 3D Cube Styles */
+        .cube-scene {
+            width: 280px;
+            height: 280px;
+            perspective: 1000px;
+            margin: 0 auto;
+        }
+
+        .cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotate3d 24s linear infinite;
+        }
+
+        .cube-face {
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.08), rgba(255, 0, 110, 0.08));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .face-front  { transform: rotateY(0deg) translateZ(140px); }
+        .face-back   { transform: rotateY(180deg) translateZ(140px); }
+        .face-right  { transform: rotateY(90deg) translateZ(140px); }
+        .face-left   { transform: rotateY(-90deg) translateZ(140px); }
+        .face-top    { transform: rotateX(90deg) translateZ(140px); }
+        .face-bottom { transform: rotateX(-90deg) translateZ(140px); }
+
+        @keyframes rotate3d {
+            0% { transform: rotateX(-20deg) rotateY(0deg) rotateZ(0deg); }
+            50% { transform: rotateX(20deg) rotateY(180deg) rotateZ(10deg); }
+            100% { transform: rotateX(-20deg) rotateY(360deg) rotateZ(0deg); }
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            mix-blend-mode: screen;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(177, 158, 239, 0.2);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(177, 158, 239, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="relative min-h-screen selection:bg-[#B19EEF] selection:text-black">
+        <!-- Canvas for Fluid Smoke Effect -->
+        <canvas id="canvas-container"></canvas>
+
+        <!-- Header Navigation -->
+        <header class="fixed top-0 left-0 w-full h-20 bg-[#050505] border-b border-white/5 z-50 flex items-center justify-center">
+            <nav class="w-full max-w-7xl px-8 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-2 h-2 rounded-full bg-[#B19EEF]"></div>
+                    <span class="font-display font-bold text-xl tracking-tight">PHANTOM</span>
+                </div>
+                
+                <div class="hidden md:flex items-center gap-10">
+                    <a href="#experience" id="nav-exp-link" class="text-white/60 hover:text-white transition-colors text-sm uppercase tracking-widest font-medium">Experience</a>
+                    <a href="#technology" id="nav-tech-link" class="text-white/60 hover:text-white transition-colors text-sm uppercase tracking-widest font-medium">Technology</a>
+                    <a href="#about" id="nav-about-link" class="text-white/60 hover:text-white transition-colors text-sm uppercase tracking-widest font-medium">About</a>
+                </div>
+
+                <a href="#request" id="nav-request-btn" class="px-6 py-2 rounded-full border border-white/10 hover:border-[#B19EEF]/40 transition-all duration-300 text-sm font-medium btn-glow">
+                    Request Access
+                </a>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="relative">
+            <!-- Hero Section -->
+            <section class="relative min-h-screen flex flex-col lg:flex-row items-center justify-center lg:justify-between max-w-7xl mx-auto px-8 py-24 overflow-hidden gap-20 lg:gap-12">
+                <!-- Glow Sphere -->
+                <div class="glow-overlay top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+
+                <!-- Hero Content (Left ~65%) -->
+                <div class="relative z-20 w-full lg:w-[60%] text-center lg:text-left space-y-8">
+                    <div class="inline-flex flex-col gap-1 items-center lg:items-start">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/5">
+                            <div class="w-1.5 h-1.5 rounded-full bg-[#ff5722] animate-pulse"></div>
+                            <span class="text-[10px] tracking-[0.6em] font-mono text-[#ff5722] font-bold uppercase">Creative Developer &amp; Engineer</span>
+                        </div>
+                        
+                    </div>
+
+                    <div class="relative flex flex-col items-center lg:items-start select-none group">
+                        <h1 class="font-impact text-8xl md:text-[10rem] xl:text-[13.5rem] leading-[0.8] text-white drop-shadow-2xl">
+                            ADARSH
+                        </h1>
+                        <h1 class="font-impact text-8xl md:text-[10rem] xl:text-[13.5rem] leading-[0.8] text-transparent" style="-webkit-text-stroke: 2px rgba(255,255,255,0.4);">
+                            PANDEY
+                        </h1>
+                    </div>
+
+                    
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6 pt-8">
+                        <a href="#explore" id="hero-explore-btn" class="px-10 py-4 bg-[#B19EEF] text-black font-bold rounded-full transition-all duration-300 hover:scale-105 btn-glow">
+                            Explore Now
+                        </a>
+                        <a href="#learn" id="hero-learn-btn" class="px-10 py-4 border border-white/10 rounded-full hover:bg-white/5 transition-all duration-300 font-medium">
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 3D Cube Container (Right ~35%) -->
+                <div class="w-full lg:w-[40%] flex items-center justify-center z-50 relative pointer-events-auto">
+                    <div class="cube-scene">
+                        <div class="cube">
+                            <div class="cube-face face-front">
+                                <iconify-icon icon="logos:aws" class="text-7xl"></iconify-icon>
+                            </div>
+                            <div class="cube-face face-back">
+                                <iconify-icon icon="logos:docker-icon" class="text-7xl"></iconify-icon>
+                            </div>
+                            <div class="cube-face face-right">
+                                <iconify-icon icon="mdi:language-python" class="text-7xl text-[#00D9FF]"></iconify-icon>
+                            </div>
+                            <div class="cube-face face-left">
+                                <iconify-icon icon="logos:mysql" class="text-7xl"></iconify-icon>
+                            </div>
+                            <div class="cube-face face-top">
+                                <iconify-icon icon="mdi:github" class="text-7xl text-[#00D9FF]"></iconify-icon>
+                            </div>
+                            <div class="cube-face face-bottom">
+                                <iconify-icon icon="mdi:code-braces" class="text-7xl text-[#00D9FF]"></iconify-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Grid -->
+            <section id="technology" class="relative py-32 px-6 max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div class="group card-hover p-8 rounded-[24px] bg-white/[0.02] border border-white/10 transition-all duration-300">
+                        <div class="w-12 h-12 rounded-xl bg-[#B19EEF]/10 flex items-center justify-center mb-6">
+                            <iconify-icon icon="lucide:zap" class="text-2xl text-[#B19EEF]"></iconify-icon>
+                        </div>
+                        <h3 class="text-2xl font-display font-bold mb-4">Fluid Dynamics</h3>
+                        <p class="text-white/40 leading-relaxed">
+                            Proprietary physics engine simulating realistic fluid behavior in real-time within the browser environment.
+                        </p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="group card-hover p-8 rounded-[24px] bg-white/[0.02] border border-white/10 transition-all duration-300">
+                        <div class="w-12 h-12 rounded-xl bg-[#B19EEF]/10 flex items-center justify-center mb-6">
+                            <iconify-icon icon="lucide:shield" class="text-2xl text-[#B19EEF]"></iconify-icon>
+                        </div>
+                        <h3 class="text-2xl font-display font-bold mb-4">Ethereal Shaders</h3>
+                        <p class="text-white/40 leading-relaxed">
+                            Custom GPU-accelerated rendering pipelines that create cinematic light scattering and soft glows.
+                        </p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="group card-hover p-8 rounded-[24px] bg-white/[0.02] border border-white/10 transition-all duration-300">
+                        <div class="w-12 h-12 rounded-xl bg-[#B19EEF]/10 flex items-center justify-center mb-6">
+                            <iconify-icon icon="lucide:command" class="text-2xl text-[#B19EEF]"></iconify-icon>
+                        </div>
+                        <h3 class="text-2xl font-display font-bold mb-4">Neural Interface</h3>
+                        <p class="text-white/40 leading-relaxed">
+                            Low-latency interaction models that respond intuitively to every cursor movement and scroll gesture.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA Section -->
+            <section class="relative py-48 px-6 text-center overflow-hidden">
+                <!-- Back Glow -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#B19EEF]/5 blur-[160px] pointer-events-none"></div>
+
+                <div class="relative z-10 space-y-10">
+                    <h2 class="font-display text-5xl md:text-[64px] font-bold tracking-tighter max-w-2xl mx-auto leading-tight">
+                        Ready to enter <br> the void?
+                    </h2>
+                    <p class="text-white/40 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+                        The collective is growing. Be among the first to experience the future of digital spatial interaction.
+                    </p>
+                    <div class="group relative inline-block">
+                        <div class="absolute -inset-4 bg-[#B19EEF]/20 blur-2xl rounded-full transition-all duration-500 group-hover:bg-[#B19EEF]/40">
+                        </div>
+                        <a href="#join" id="cta-join-btn" class="relative px-12 py-5 bg-white text-black font-bold rounded-full text-lg transition-transform hover:scale-105 block">
+                            Join the Collective
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="relative px-8 py-12 border-t border-white/5">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+                <div class="flex items-center gap-3">
+                    <div class="w-5 h-5 rounded-full border border-white/50"></div>
+                    <span class="font-display font-medium text-sm tracking-widest">PHANTOM STUDIO</span>
+                </div>
+
+                <div class="flex items-center gap-8 text-white/30 text-xs font-medium">
+                    <a href="#privacy" id="footer-privacy-link" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#terms" id="footer-terms-link" class="hover:text-white transition-colors">Terms of Service</a>
+                    <a href="#cookies" id="footer-cookies-link" class="hover:text-white transition-colors">Cookies</a>
+                </div>
+
+                <div class="text-white/20 text-xs">
+                    © 2024 Phantom. All rights reserved.
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        /**
+         * PHANTOM FLUID SMOKE CURSOR
+         */
+        const canvas = document.getElementById('canvas-container');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height;
+        let mouse = { x: -100, y: -100 };
+        let lastMouse = { x: -100, y: -100 };
+        let isActive = false;
+        let idleTimer = 0;
+
+        const numPoints = 25;
+        const points = [];
+        
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+
+        function init() {
+            resize();
+            for(let i = 0; i < numPoints; i++) {
+                points.push({
+                    x: mouse.x,
+                    y: mouse.y,
+                    lx: mouse.x,
+                    ly: mouse.y,
+                    size: 0,
+                    alpha: 0
+                });
+            }
+            window.addEventListener('resize', resize);
+            window.addEventListener('mousemove', e => {
+                lastMouse.x = mouse.x;
+                lastMouse.y = mouse.y;
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+                isActive = true;
+                idleTimer = 0;
+            });
+        }
+
+        let time = 0;
+        function update() {
+            time += 0.052;
+            let dx = mouse.x - points[0].x;
+            let dy = mouse.y - points[0].y;
+            
+            points[0].x += dx * 0.15;
+            points[0].y += dy * 0.15;
+            
+            for(let i = 1; i < numPoints; i++) {
+                const p = points[i];
+                const prev = points[i-1];
+                
+                p.lx = p.x;
+                p.ly = p.y;
+                
+                // Spiral / Vortex modulation
+                const swirlForce = (numPoints - i) * 0.15;
+                const swirlX = Math.cos(time + i * 0.4) * swirlForce;
+                const swirlY = Math.sin(time + i * 0.4) * swirlForce;
+
+                p.x += (prev.x - p.x) * 0.35 + swirlX;
+                p.y += (prev.y - p.y) * 0.35 + swirlY;
+
+                p.alpha = Math.max(0, 1 - (i / numPoints)) * (isActive ? 1 : 0);
+            }
+            
+            if (isActive) {
+                idleTimer++;
+                if (idleTimer > 100) isActive = false;
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            
+            const cubeScene = document.querySelector('.cube-scene');
+            if (!cubeScene) return;
+            const cubeRect = cubeScene.getBoundingClientRect();
+            const padding = 20;
+
+            // Bounds check for mouse over cube with padding
+            if (
+                mouse.x >= cubeRect.left - padding && 
+                mouse.x <= cubeRect.right + padding && 
+                mouse.y >= cubeRect.top - padding && 
+                mouse.y <= cubeRect.bottom + padding
+            ) {
+                isActive = false;
+            }
+            
+            ctx.save();
+            // Clipping region: draw on full canvas except for the cube area
+            ctx.beginPath();
+            ctx.rect(0, 0, width, height);
+            ctx.rect(cubeRect.left - padding, cubeRect.top - padding, cubeRect.width + padding * 2, cubeRect.height + padding * 2);
+            ctx.clip('evenodd');
+
+            for(let i = 1; i < numPoints; i++) {
+                const p = points[i];
+                const opacity = Math.pow(p.alpha, 2.5);
+                
+                const ratio = i / numPoints;
+                const r = Math.floor(177 + (239 - 177) * ratio);
+                const g = 158;
+                const b = Math.floor(239 + (205 - 239) * ratio);
+                const baseColor = `rgba(${r}, ${g}, ${b},`;
+
+                const gradOuter = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, (numPoints - i) * 5);
+                gradOuter.addColorStop(0, `${baseColor} ${opacity * 0.3})`);
+                gradOuter.addColorStop(0.6, `${baseColor} ${opacity * 0.03})`);
+                gradOuter.addColorStop(1, `${baseColor} 0)`);
+                
+                ctx.beginPath();
+                ctx.fillStyle = gradOuter;
+                ctx.arc(p.x, p.y, (numPoints - i) * 5, 0, Math.PI * 2);
+                ctx.fill();
+
+                const gradInner = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, (numPoints - i) * 2);
+                gradInner.addColorStop(0, `${baseColor} ${opacity * 0.6})`);
+                gradInner.addColorStop(1, `${baseColor} 0)`);
+                
+                ctx.beginPath();
+                ctx.fillStyle = gradInner;
+                ctx.arc(p.x, p.y, (numPoints - i) * 2, 0, Math.PI * 2);
+                ctx.fill();
+
+                if (i % 2 === 0) {
+                    const noiseX = Math.cos(time * 3 + i) * (numPoints - i) * 1.5;
+                    const noiseY = Math.sin(time * 3 + i) * (numPoints - i) * 1.5;
+                    ctx.beginPath();
+                    ctx.fillStyle = `${baseColor} ${opacity * 0.6})`;
+                    ctx.arc(p.x + noiseX, p.y + noiseY, 1.2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            ctx.restore();
+        }
+
+        function loop() {
+            update();
+            draw();
+            requestAnimationFrame(loop);
+        }
+
+        init();
+        loop();
+    </script>
+
+</body></html>
+```
+
+Please reference this design and implement it into our codebase; Try to understand the structure, which part of our codebase is relevant and implement
