@@ -20,7 +20,6 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <div className="relative min-h-screen selection:bg-[#B19EEF] selection:text-black">
-          <CanvasBackground />
           {children}
         </div>
       </body>

@@ -77,23 +77,23 @@ export default function RotatingCube() {
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
         >
-          <div className="cube-face face-front">
-            <FaAws className="text-7xl text-[#FF9900]" />
+          <div className="cube-face face-front !bg-black !backdrop-blur-none !filter-none border border-white/20">
+            <FaAws className="text-7xl text-[#FF9900]" style={{ filter: 'drop-shadow(0 0 20px #FF9900)' }} />
           </div>
-          <div className="cube-face face-back">
-            <FaDocker className="text-7xl text-[#2496ED]" />
+          <div className="cube-face face-back !bg-black !backdrop-blur-none !filter-none border border-white/20">
+            <FaDocker className="text-7xl text-[#2496ED]" style={{ filter: 'drop-shadow(0 0 20px #2496ED)' }} />
           </div>
-          <div className="cube-face face-right">
-            <FaPython className="text-7xl text-[#3776AB]" />
+          <div className="cube-face face-right !bg-black !backdrop-blur-none !filter-none border border-white/20">
+            <FaPython className="text-7xl text-[#3776AB]" style={{ filter: 'drop-shadow(0 0 15px #3776AB) drop-shadow(0 0 35px #5BA1E2)' }} />
           </div>
-          <div className="cube-face face-left">
-            <SiMysql className="text-7xl text-[#4479A1]" />
+          <div className="cube-face face-left !bg-black !backdrop-blur-none !filter-none border border-white/20">
+            <SiMysql className="text-7xl text-[#4479A1]" style={{ filter: 'drop-shadow(0 0 15px #4479A1) drop-shadow(0 0 35px #5FA7DF)' }} />
           </div>
-          <div className="cube-face face-top">
-            <FaReact className="text-7xl text-[#61DAFB]" />
+          <div className="cube-face face-top !bg-black !backdrop-blur-none !filter-none border border-white/20">
+            <FaReact className="text-7xl text-[#61DAFB]" style={{ filter: 'drop-shadow(0 0 20px #61DAFB)' }} />
           </div>
-          <div className="cube-face face-bottom">
-            <SiMongodb className="text-7xl text-[#47A248]" />
+          <div className="cube-face face-bottom !bg-black !backdrop-blur-none !filter-none border border-white/20">
+            <SiMongodb className="text-7xl text-[#47A248]" style={{ filter: 'drop-shadow(0 0 20px #47A248)' }} />
           </div>
         </div>
       </div>
