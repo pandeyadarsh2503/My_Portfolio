@@ -20,39 +20,42 @@ export default function Home() {
     return () => window.removeEventListener('message', handleMessage);
   }, []);
 
-  if (showGame) {
-    return (
-      <div className={`fixed inset-0 w-full h-full bg-[#050505] z-[9999] flex flex-col transition-all duration-[2500ms] ease-in-out ${isUnlocked ? 'opacity-0 scale-110 pointer-events-none blur-sm' : 'opacity-100 scale-100 blur-0'}`}>
-        <iframe 
-          src="/Cricket-Doodle-Game/index.html" 
-          sandbox="allow-scripts allow-same-origin"
-          className="w-full h-full absolute inset-0 z-0 border-none m-0 p-0 pointer-events-auto bg-[#050505]"
-        />
-        <div className={`absolute top-8 left-1/2 -translate-x-1/2 z-10 text-center pointer-events-none w-full px-4 transition-opacity duration-500 ${isUnlocked ? 'opacity-0' : 'opacity-100'}`}>
-          <h2 className="font-display text-4xl md:text-5xl text-white drop-shadow-[0_0_15px_rgba(177,158,239,0.8)] mb-2 uppercase tracking-wider font-extrabold flex items-center justify-center gap-4">
-            <span className="w-8 h-[2px] bg-white/20"></span>
-            Hit a SIX to Enter
-            <span className="w-8 h-[2px] bg-white/20"></span>
-          </h2>
-          <p className="text-[#B19EEF] text-sm md:text-base tracking-widest uppercase font-mono shadow-sm">Welcome to the Void</p>
-        </div>
-        <button 
-          onClick={() => {
-            setIsUnlocked(true);
-            setTimeout(() => setShowGame(false), 2500);
-          }}
-          className={`absolute bottom-8 left-1/2 -translate-x-1/2 px-6 py-2 text-xs text-white/30 hover:text-white border border-white/5 hover:border-white/20 rounded-full transition-all z-20 pointer-events-auto ${isUnlocked ? 'opacity-0' : 'opacity-100'}`}
-        >
-          Skip Game (Preview)
-        </button>
-      </div>
-    );
-  }
-
   return (
-    <div className="animate-in fade-in zoom-in-95 duration-[2000ms] ease-out">
-      {/* Header Navigation */}
-      <header className="fixed top-0 left-0 w-full h-20 bg-[#050505]/80 backdrop-blur-md border-b border-white/5 z-50 flex items-center justify-center">
+    <main className="relative w-full min-h-screen">
+      {/* Game Gateway Overlay */}
+      {showGame && (
+        <div className={`fixed inset-0 w-full h-full bg-[#050505] z-[9999] flex flex-col transition-all duration-[2500ms] ease-in-out ${isUnlocked ? 'opacity-0 scale-105 pointer-events-none backdrop-blur-sm' : 'opacity-100 scale-100 blur-0'}`}>
+          <iframe 
+            src="/Cricket-Doodle-Game/index.html" 
+            sandbox="allow-scripts allow-same-origin"
+            className="w-full h-full absolute inset-0 z-0 border-none m-0 p-0 pointer-events-auto bg-[#050505]"
+          />
+          
+          <div className={`absolute bottom-6 left-6 z-10 text-left pointer-events-none transition-opacity duration-500 ${isUnlocked ? 'opacity-0' : 'opacity-100'}`}>
+            <h2 className="font-display text-lg md:text-xl text-white/90 drop-shadow-[0_0_10px_rgba(255,255,255,0.4)] mb-1 uppercase tracking-widest font-extrabold flex items-center gap-2">
+              <span className="w-4 h-[2px] bg-[#B19EEF]"></span>
+              Hit a Boundary (6) to Enter
+            </h2>
+            <p className="text-[#B19EEF]/70 text-[10px] md:text-xs tracking-widest uppercase font-mono pl-6">Welcome to the Void</p>
+          </div>
+
+          <button 
+            onClick={() => {
+              setIsUnlocked(true);
+              setTimeout(() => setShowGame(false), 2500);
+            }}
+            className={`absolute bottom-6 right-6 px-4 py-2 text-[10px] text-white/30 hover:text-white border border-white/5 hover:border-white/20 rounded-full transition-all z-20 pointer-events-auto bg-black/40 backdrop-blur-sm ${isUnlocked ? 'opacity-0' : 'opacity-100'}`}
+          >
+            Skip Game 
+          </button>
+        </div>
+      )}
+
+      {/* Portfolio Background / Main Content */}
+      <div className={`w-full min-h-screen transition-all duration-1000 ${isUnlocked ? 'opacity-100 scale-100' : 'opacity-50 scale-95 pointer-events-none'}`}>
+        <div className="fixed inset-0 bg-[#050505] overflow-y-auto w-full h-full hidden-scrollbar scroll-smooth relative z-0">
+          
+          <header className="fixed flex top-0 left-0 w-full h-20 bg-[#050505]/80 backdrop-blur-md border-b border-white/5 z-50 items-center justify-center">
         <nav className="w-full max-w-7xl px-8 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-2 h-2 rounded-full bg-[#B19EEF]"></div>
@@ -385,6 +388,8 @@ export default function Home() {
           </div>
         </div>
       </footer>
-    </div>
+      </div>
+      </div>
+    </main>
   );
 }
