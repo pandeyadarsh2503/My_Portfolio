@@ -6,56 +6,10 @@ import { FiExternalLink, FiGithub } from "react-icons/fi";
 import { FaGraduationCap, FaBriefcase, FaCode, FaBrain, FaServer, FaDatabase } from "react-icons/fa";
 
 export default function Home() {
-  const [isUnlocked, setIsUnlocked] = useState(false);
-  const [showGame, setShowGame] = useState(true);
-
-  useEffect(() => {
-    const handleMessage = (e: MessageEvent) => {
-      if (e.data && e.data.type === 'SIX_HIT') {
-        setIsUnlocked(true);
-        setTimeout(() => setShowGame(false), 2500);
-      }
-    };
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, []);
-
   return (
-    <main className="relative w-full min-h-screen">
-      {/* Game Gateway Overlay */}
-      {showGame && (
-        <div className={`fixed inset-0 w-full h-full bg-[#050505] z-[9999] flex flex-col transition-all duration-[2500ms] ease-in-out ${isUnlocked ? 'opacity-0 scale-105 pointer-events-none backdrop-blur-sm' : 'opacity-100 scale-100 blur-0'}`}>
-          <iframe 
-            src="/Cricket-Doodle-Game/index.html" 
-            sandbox="allow-scripts allow-same-origin"
-            className="w-full h-full absolute inset-0 z-0 border-none m-0 p-0 pointer-events-auto bg-[#050505]"
-          />
-          
-          <div className={`absolute bottom-6 left-6 z-10 text-left pointer-events-none transition-opacity duration-500 ${isUnlocked ? 'opacity-0' : 'opacity-100'}`}>
-            <h2 className="font-display text-lg md:text-xl text-white/90 drop-shadow-[0_0_10px_rgba(255,255,255,0.4)] mb-1 uppercase tracking-widest font-extrabold flex items-center gap-2">
-              <span className="w-4 h-[2px] bg-[#B19EEF]"></span>
-              Hit a Boundary (6) to Enter
-            </h2>
-            <p className="text-[#B19EEF]/70 text-[10px] md:text-xs tracking-widest uppercase font-mono pl-6">Welcome to the Void</p>
-          </div>
-
-          <button 
-            onClick={() => {
-              setIsUnlocked(true);
-              setTimeout(() => setShowGame(false), 2500);
-            }}
-            className={`absolute bottom-6 right-6 px-4 py-2 text-[10px] text-white/30 hover:text-white border border-white/5 hover:border-white/20 rounded-full transition-all z-20 pointer-events-auto bg-black/40 backdrop-blur-sm ${isUnlocked ? 'opacity-0' : 'opacity-100'}`}
-          >
-            Skip Game 
-          </button>
-        </div>
-      )}
-
-      {/* Portfolio Background / Main Content */}
-      <div className={`w-full min-h-screen transition-all duration-1000 ${isUnlocked ? 'opacity-100 scale-100' : 'opacity-50 scale-95 pointer-events-none'}`}>
-        <div className="fixed inset-0 bg-[#050505] overflow-y-auto w-full h-full hidden-scrollbar scroll-smooth relative z-0">
-          
-          <header className="fixed flex top-0 left-0 w-full h-20 bg-[#050505]/80 backdrop-blur-md border-b border-white/5 z-50 items-center justify-center">
+    <main className="relative w-full min-h-screen bg-[#050505] overflow-y-auto hidden-scrollbar scroll-smooth">
+      {/* Header Navigation */}
+      <header className="fixed flex top-0 left-0 w-full h-20 bg-[#050505]/80 backdrop-blur-md border-b border-white/5 z-50 items-center justify-center">
         <nav className="w-full max-w-7xl px-8 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-2 h-2 rounded-full bg-[#B19EEF]"></div>
@@ -388,8 +342,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-      </div>
-      </div>
     </main>
   );
 }
