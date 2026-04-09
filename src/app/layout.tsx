@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import CanvasBackground from "@/components/CanvasBackground";
+import CustomCursor from "@/components/CustomCursor";
 
 export const metadata: Metadata = {
   title: "Phantom | Adarsh Pandey",
@@ -18,7 +18,8 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,700,500&f[]=satoshi@400,500,700&display=swap" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap" />
       </head>
-      <body className="antialiased">
+      <body className="antialiased cursor-none">
+        <CustomCursor />
         <div className="relative min-h-screen selection:bg-[#B19EEF] selection:text-black">
           {children}
         </div>

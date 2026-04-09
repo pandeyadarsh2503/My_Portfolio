@@ -21,7 +21,7 @@ export default function RotatingCube() {
     const animate = () => {
       setRotation(prev => ({
         x: prev.x,
-        y: prev.y + 0.5
+        y: prev.y + 0.15
       }));
       requestRef.current = requestAnimationFrame(animate);
     };
