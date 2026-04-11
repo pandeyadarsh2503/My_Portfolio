@@ -3,8 +3,8 @@ import "./globals.css";
 import CustomCursor from "@/components/CustomCursor";
 
 export const metadata: Metadata = {
-  title: "Phantom | Adarsh Pandey",
-  description: "Creative Developer & AI/ML Engineer Portfolio",
+  title: "Adarsh Pandey",
+  description: "Software & AI/ML Engineer Portfolio",
 };
 
 export default function RootLayout({
