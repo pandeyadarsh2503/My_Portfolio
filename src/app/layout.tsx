@@ -3,7 +3,7 @@ import "./globals.css";
 import CustomCursor from "@/components/CustomCursor";
 
 export const metadata: Metadata = {
-  title: "Adarsh Pandey",
+  title: "Adarsh",
   description: "Software & AI/ML Engineer Portfolio",
 };
 
