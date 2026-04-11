@@ -78,7 +78,7 @@ export default function Home() {
         {/* Projects Grid Section */}
         <section id="projects" className="relative py-24 px-6 max-w-7xl mx-auto scroll-mt-20">
           <div className="flex items-center gap-4 mb-16">
-            <h2 className="font-display text-4xl md:text-5xl font-bold">Featured Projects</h2>
+            <h2 className="font-display text-4xl md:text-5xl font-bold">Projects</h2>
             <div className="h-[1px] flex-1 bg-gradient-to-r from-white/20 to-transparent"></div>
           </div>
 
