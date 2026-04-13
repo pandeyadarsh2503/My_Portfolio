@@ -54,7 +54,7 @@ export default function Home() {
             </div>
 
             <p className="text-white/60 text-lg max-w-md mx-auto lg:mx-0 leading-relaxed font-medium">
-              Passionate about building scalable AI/ML solutions, intuitive web apps, and exploring data-driven engineering.
+              Passionate about building scalable AI/ML solutions.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6 pt-4">
