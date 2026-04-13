@@ -127,3 +127,25 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(177, 158, 239, 0.4);
 }
+
+/* Appended styles for new sections */
+.glass { 
+  background: rgba(17, 17, 24, 0.5); 
+  backdrop-filter: blur(20px); 
+  border: 1px solid rgba(255, 255, 255, 0.06); 
+}
+.glass-strong { 
+  background: rgba(13, 13, 18, 0.7); 
+  backdrop-filter: blur(24px); 
+  border: 1px solid rgba(255, 255, 255, 0.1); 
+}
+.text-gradient-hero { 
+  background: linear-gradient(to bottom right, #ffffff, #a1a1aa); 
+  -webkit-background-clip: text; 
+  color: transparent; 
+}
+.text-gradient-cyan { 
+  background: linear-gradient(to bottom right, #00f0ff, #ffffff); 
+  -webkit-background-clip: text; 
+  color: transparent; 
+}
