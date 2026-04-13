@@ -89,14 +89,14 @@ export default function ProjectsSection() {
               className="relative rounded-2xl overflow-hidden transition-all duration-500 h-full flex flex-col"
               style={{
                 background: 'linear-gradient(145deg, rgba(17, 17, 24, 0.9) 0%, rgba(13, 13, 18, 0.95) 100%)',
-                border: \`1px solid \${p.gradientFrom}\`,
-                boxShadow: \`0 4px 30px \${p.gradientTo}\`
+                border: `1px solid ${p.gradientFrom}`,
+                boxShadow: `0 4px 30px ${p.gradientTo}`
               }}
             >
               {/* Window Header */}
               <div 
                 className="flex items-center gap-2 px-4 py-3 shrink-0" 
-                style={{ background: 'rgba(0, 0, 0, 0.3)', borderBottom: \`1px solid \${p.gradientFrom}\` }}
+                style={{ background: 'rgba(0, 0, 0, 0.3)', borderBottom: `1px solid ${p.gradientFrom}` }}
               >
                 <div className="flex gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]"></div>
@@ -115,7 +115,7 @@ export default function ProjectsSection() {
               <div className="relative aspect-video w-full overflow-hidden shrink-0 bg-[#0a0a0f] flex items-center justify-center">
                 <div 
                   className="absolute inset-0 opacity-20" 
-                  style={{ background: \`radial-gradient(circle at center, \${p.color}, transparent 70%)\` }}
+                  style={{ background: `radial-gradient(circle at center, ${p.color}, transparent 70%)` }}
                 ></div>
                 <h2 className="text-3xl font-display font-bold text-white/20 tracking-widest">{p.title.toUpperCase()}</h2>
                 <div 
@@ -165,13 +165,13 @@ export default function ProjectsSection() {
 
                 <div 
                   className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" 
-                  style={{ background: \`radial-gradient(ellipse at bottom, \${p.gradientFrom} 0%, transparent 70%)\` }}
+                  style={{ background: `radial-gradient(ellipse at bottom, ${p.gradientFrom} 0%, transparent 70%)` }}
                 ></div>
               </div>
 
               <div 
                 className="absolute top-0 left-0 right-0 h-px opacity-50 group-hover:opacity-80 transition-opacity duration-500" 
-                style={{ background: \`linear-gradient(90deg, transparent, \${p.color}, transparent)\` }}
+                style={{ background: `linear-gradient(90deg, transparent, ${p.color}, transparent)` }}
               ></div>
             </div>
           </div>

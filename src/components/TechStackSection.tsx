@@ -44,7 +44,7 @@ const TechGridItem = ({ skill, accentColor }: { skill: Skill, accentColor: strin
     <div className="group relative flex flex-col items-center justify-center gap-2.5 rounded-2xl cursor-default overflow-hidden bg-[#0f0f17] p-4 border border-white/5 hover:border-white/20 transition-all duration-300">
       <div 
         className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" 
-        style={{ background: \`radial-gradient(ellipse at 50% 0%, \${accentColor}12 0%, transparent 60%)\` }}
+        style={{ background: `radial-gradient(ellipse at 50% 0%, ${accentColor}12 0%, transparent 60%)` }}
       ></div>
       <img 
         src={skill.icon} 

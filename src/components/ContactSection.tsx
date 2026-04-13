@@ -10,12 +10,12 @@ export default function ContactSection() {
             key={i}
             className="absolute bg-white rounded-full animate-pulse-glow" 
             style={{
-              top: \`\${(i * 37) % 100}%\`,
-              left: \`\${(i * 23) % 100}%\`,
-              width: \`\${Math.max(1, (i % 3))}px\`,
-              height: \`\${Math.max(1, (i % 3))}px\`,
-              animationDelay: \`\${(i % 5)}s\`,
-              animationDuration: \`\${3 + (i % 4)}s\`
+              top: `${(i * 37) % 100}%`,
+              left: `${(i * 23) % 100}%`,
+              width: `${Math.max(1, (i % 3))}px`,
+              height: `${Math.max(1, (i % 3))}px`,
+              animationDelay: `${(i % 5)}s`,
+              animationDuration: `${3 + (i % 4)}s`
             }}
           ></div>
         ))}

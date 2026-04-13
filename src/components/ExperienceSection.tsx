@@ -73,21 +73,21 @@ export default function ExperienceSection() {
           {experiences.map((exp, index) => (
             <div 
               key={exp.id} 
-              className={\`relative flex items-start gap-8 md:\${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}\`}
+              className={`relative flex items-start gap-8 md:${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}
             >
-              <div className={\`flex-1 ml-16 md:ml-0 md:text-left \${index % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12'}\`}>
+              <div className={`flex-1 ml-16 md:ml-0 md:text-left ${index % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12'}`}>
                 <span className="text-xs font-mono text-[#00f0ff] uppercase tracking-wider">{exp.period}</span>
                 <h3 className="text-xl md:text-2xl font-bold font-display mt-1 text-white">{exp.role}</h3>
                 <p className="text-white/60 mt-1 font-medium">{exp.company}</p>
                 <p className="text-white/50 text-sm mt-3 leading-relaxed">
                   {exp.desc}
                 </p>
-                <ul className={\`mt-4 space-y-2 inline-block w-full \${index % 2 === 0 ? 'md:text-right' : 'text-left'}\`}>
+                <ul className={`mt-4 space-y-2 inline-block w-full ${index % 2 === 0 ? 'md:text-right' : 'text-left'}`}>
                   {exp.bullets.map((b, i) => (
-                    <li key={i} className={\`text-sm text-white/50 flex items-start gap-2 \${index % 2 === 0 ? 'md:justify-end' : 'justify-start'}\`}>
-                      <span className={\`text-[#10b981] mt-0.5 shrink-0 \${index % 2 === 0 ? 'md:hidden' : ''}\`}>▸</span>
+                    <li key={i} className={`text-sm text-white/50 flex items-start gap-2 ${index % 2 === 0 ? 'md:justify-end' : 'justify-start'}`}>
+                      <span className={`text-[#10b981] mt-0.5 shrink-0 ${index % 2 === 0 ? 'md:hidden' : ''}`}>▸</span>
                       <span>{b}</span>
-                      <span className={\`text-[#10b981] mt-0.5 shrink-0 hidden \${index % 2 === 0 ? 'md:inline-block' : ''}\`}>◂</span>
+                      <span className={`text-[#10b981] mt-0.5 shrink-0 hidden ${index % 2 === 0 ? 'md:inline-block' : ''}`}>◂</span>
                     </li>
                   ))}
                 </ul>
