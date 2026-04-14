@@ -16,7 +16,7 @@ export default function TechStackSection() {
         
         <div className="relative w-full flex flex-col items-center justify-center mt-8">
           {/* Skill Globe 3D Output */}
-          <div className="w-full h-full min-h-[400px] flex items-center justify-center">
+          <div className="w-full h-full min-h-[600px] flex items-center justify-center">
              <SkillGlobe />
           </div>
           

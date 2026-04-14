@@ -1,42 +1,15 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { Cloud, ICloud } from "react-icon-cloud";
-
-const cloudProps: Omit<ICloud, "children"> = {
-  containerProps: {
-    style: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      width: "100%",
-      paddingTop: 40,
-    },
-  },
-  options: {
-    reverse: true,
-    depth: 1,
-    wheelZoom: false,
-    imageScale: 2.5,
-    activeCursor: "default",
-    tooltip: "native",
-    initial: [0.1, -0.1],
-    clickToFront: 500,
-    tooltipDelay: 0,
-    outlineColour: "#0000",
-    maxSpeed: 0.04,
-    minSpeed: 0.02,
-    dragControl: true,
-  },
-};
+import React, { useMemo, useRef, useState, useEffect } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { OrbitControls, Html, Float } from "@react-three/drei";
+import * as THREE from "three";
 
 type Skill = {
   name: string;
   icon: string;
 };
 
-// Merged the array of skills from the old TechStackSection
-// Some inverted icons in devicon need the "line" or "plain" wordmark. We use ones that look good on dark mode.
 const skills: Skill[] = [
   { name: "Python", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
   { name: "C++", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" },
@@ -60,6 +33,89 @@ const skills: Skill[] = [
   { name: "GitHub", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original-wordmark.svg" },
 ];
 
+function SkillIcon({ position, skill }: { position: [number, number, number]; skill: Skill }) {
+  const isDarkIcon = ["Next.js", "Express.js", "AWS", "GitHub"].includes(skill.name);
+  
+  return (
+    <Html position={position} center distanceFactor={10} transition style={{ pointerEvents: "none" }}>
+      <div className="flex flex-col items-center group select-none">
+        <div className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-[#0a0a0a]/50 backdrop-blur-sm rounded-lg border border-white/5 p-2 transition-all duration-300 group-hover:scale-110 group-hover:border-[#B19EEF]/30">
+          <img
+            src={skill.icon}
+            alt={skill.name}
+            className="w-full h-full object-contain"
+            style={{ filter: isDarkIcon ? "brightness(0) invert(1)" : "" }}
+          />
+        </div>
+        <span className="mt-2 text-[10px] font-mono text-white/50 bg-[#050505]/80 px-2 py-0.5 rounded-full border border-white/5 opacity-0 group-hover:opacity-100 transition-opacity">
+          {skill.name}
+        </span>
+      </div>
+    </Html>
+  );
+}
+
+function Globe() {
+  const groupRef = useRef<THREE.Group>(null);
+  
+  // Calculate positions on a sphere
+  const skillPositions = useMemo(() => {
+    const count = skills.length;
+    const pos: [number, number, number][] = [];
+    const phi = Math.PI * (3 - Math.sqrt(5)); // golden angle in radians
+
+    for (let i = 0; i < count; i++) {
+      const y = 1 - (i / (count - 1)) * 2; // y goes from 1 to -1
+      const radius = Math.sqrt(1 - y * y); // radius at y
+
+      const theta = phi * i; // golden angle increment
+
+      const x = Math.cos(theta) * radius;
+      const z = Math.sin(theta) * radius;
+
+      // Scale to sphere radius
+      pos.push([x * 5, y * 5, z * 5]);
+    }
+    return pos;
+  }, []);
+
+  useFrame((state, delta) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y += delta * 0.15; // Controlled slow rotation
+      groupRef.current.rotation.x += delta * 0.05;
+    }
+  });
+
+  return (
+    <group ref={groupRef}>
+      {/* Geodesic Wireframe Sphere */}
+      <mesh>
+        <icosahedronGeometry args={[4.8, 2]} />
+        <meshBasicMaterial 
+          color="#3d2b1f" 
+          wireframe 
+          transparent 
+          opacity={0.3} 
+        />
+      </mesh>
+      
+      {/* Inner faint glow sphere */}
+      <mesh>
+        <sphereGeometry args={[4.7, 32, 32]} />
+        <meshBasicMaterial 
+          color="#1a0f08" 
+          transparent 
+          opacity={0.2} 
+        />
+      </mesh>
+
+      {skills.map((skill, i) => (
+        <SkillIcon key={skill.name} position={skillPositions[i]} skill={skill} />
+      ))}
+    </group>
+  );
+}
+
 export default function SkillGlobe() {
   const [mounted, setMounted] = useState(false);
 
@@ -68,56 +124,35 @@ export default function SkillGlobe() {
   }, []);
 
   if (!mounted) {
-    return <div className="h-[400px] w-full flex items-center justify-center text-white/50 animate-pulse">Loading Universe...</div>;
+    return (
+      <div className="h-[500px] w-full flex items-center justify-center text-white/20 font-mono text-sm tracking-widest animate-pulse">
+        INITIALIZING TECH UNIVERSE...
+      </div>
+    );
   }
 
-  const icons = skills.map((skill, index) => (
-    <a key={index} href="#" onClick={(e) => e.preventDefault()} title={skill.name}>
-      <img
-        height="50"
-        width="50"
-        src={skill.icon}
-        alt={skill.name}
-        crossOrigin="anonymous"
-        style={{
-          filter: ["Next.js", "Express.js", "AWS", "GitHub"].includes(skill.name) 
-            ? "brightness(0) invert(1)" 
-            : "none"
-        }}
-      />
-    </a>
-  ));
-
   return (
-    <div className="relative flex items-center justify-center cursor-grab active:cursor-grabbing pb-12 w-full max-w-lg mx-auto">
-      <Cloud 
-        containerProps={{
-          style: {
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "100%",
-            paddingTop: 40,
-          }
-        }}
-        options={{
-          reverse: true,
-          depth: 1,
-          wheelZoom: false,
-          imageScale: 2,
-          activeCursor: "default",
-          tooltip: "native",
-          initial: [0.03, -0.03],
-          clickToFront: 500,
-          tooltipDelay: 0,
-          outlineColour: "#0000",
-          maxSpeed: 0.05,
-          minSpeed: 0.015,
-          dragControl: true,
-        }}
+    <div className="relative w-full h-[600px] cursor-grab active:cursor-grabbing">
+      <Canvas
+        camera={{ position: [0, 0, 15], fov: 45 }}
+        dpr={[1, 2]}
       >
-        {icons}
-      </Cloud>
+        <ambientLight intensity={0.5} />
+        <pointLight position={[10, 10, 10]} />
+        
+        <Globe />
+        
+        <OrbitControls 
+          enableZoom={false} 
+          enablePan={false}
+          autoRotate={false} // We handle rotation in useFrame for more control
+          rotateSpeed={0.5}
+        />
+      </Canvas>
+      
+      {/* Gradient overlays to fade the globe into the background */}
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#050505] via-transparent to-[#050505] opacity-60"></div>
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-[#050505] via-transparent to-[#050505] opacity-60"></div>
     </div>
   );
 }
