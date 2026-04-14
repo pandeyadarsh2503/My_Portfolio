@@ -78,12 +78,8 @@ export default function SkillGlobe() {
         width="50"
         src={skill.icon}
         alt={skill.name}
+        crossOrigin="anonymous"
         style={{
-          // For nextjs/express/aws/github that are dark, we normally invert, but TagCanvas mostly deals with unstyled images.
-          // By adding a subtle dark or light background to the icon, we ensure visibility if needed.
-          // However, using the "wordmark" or standard icons usually has a background or we just render them raw.
-          // We can use a CSS filter if the user's browser applies it before TagCanvas grabs it, but standard <img> is safer.
-          // Let's invert Next.js, Express, AWS, and GitHub if they are plain dark icons.
           filter: ["Next.js", "Express.js", "AWS", "GitHub"].includes(skill.name) 
             ? "brightness(0) invert(1)" 
             : "none"
@@ -94,7 +90,34 @@ export default function SkillGlobe() {
 
   return (
     <div className="relative flex items-center justify-center cursor-grab active:cursor-grabbing pb-12 w-full max-w-lg mx-auto">
-      <Cloud {...cloudProps}>{icons}</Cloud>
+      <Cloud 
+        containerProps={{
+          style: {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            paddingTop: 40,
+          }
+        }}
+        options={{
+          reverse: true,
+          depth: 1,
+          wheelZoom: false,
+          imageScale: 2,
+          activeCursor: "default",
+          tooltip: "native",
+          initial: [0.03, -0.03],
+          clickToFront: 500,
+          tooltipDelay: 0,
+          outlineColour: "#0000",
+          maxSpeed: 0.05,
+          minSpeed: 0.015,
+          dragControl: true,
+        }}
+      >
+        {icons}
+      </Cloud>
     </div>
   );
 }
