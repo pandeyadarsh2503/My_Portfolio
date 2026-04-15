@@ -18,7 +18,7 @@ const projects: Project[] = [
   {
     id: "neersense",
     number: "01",
-    title: "NeerSense (SIH)",
+    title: "NeerHigh (SIH)",
     href: "https://github.com",
     descTitle: "AI Ocean Data Platform",
     description: "AI-powered ocean data platform using FastAPI-based RAG architecture. Integrated semantic search and automated insight generation over large-scale Argo float datasets.",
