@@ -1,9 +1,40 @@
 "use client";
 
-import React, { useMemo, useRef, useState, useEffect } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Html, Float } from "@react-three/drei";
-import * as THREE from "three";
+import React, { useEffect, useState } from "react";
+import { Cloud, ICloud } from "react-icon-cloud";
+
+const cloudProps: Omit<ICloud, "children"> = {
+  containerProps: {
+    style: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      width: "100%",
+    },
+  },
+  options: {
+    reverse: true,
+    depth: 0.8,
+    wheelZoom: false,
+    imageScale: 2,
+    activeCursor: "default",
+    tooltip: "native",
+    initial: [0.08, -0.05],
+    clickToFront: 500,
+    tooltipDelay: 0,
+    outlineColour: "#0000",
+    maxSpeed: 0.045,
+    minSpeed: 0.02,
+    dragControl: true,
+    // Fading logic
+    minOpacity: 0.05, // Slightly visible at back for "disappearing" effect
+    opacityOut: 0.1,
+    // Add text formatting for TagCanvas
+    textFont: 'Monospace',
+    textColour: '#ffffffaa',
+    textHeight: 10,
+  },
+};
 
 type Skill = {
   name: string;
@@ -11,161 +42,114 @@ type Skill = {
 };
 
 const skills: Skill[] = [
+  // Programming Languages
   { name: "Python", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
   { name: "C++", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" },
+  { name: "C", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" },
   { name: "Java", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" },
+  
+  // Web Technologies
+  { name: "HTML5", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
+  { name: "CSS3", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" },
   { name: "JavaScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
-  { name: "TypeScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
-  { name: "React", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
-  { name: "Next.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original-wordmark.svg" },
-  { name: "Tailwind", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" },
-  { name: "Express.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original-wordmark.svg" },
+  { name: "React.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
   { name: "FastAPI", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" },
-  { name: "TensorFlow", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" },
+  
+  // App Development
+  { name: "Flutter", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg" },
+  
+  // Machine Learning & AI
   { name: "NumPy", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" },
   { name: "Pandas", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" },
-  { name: "PyTorch", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg" },
-  { name: "Jupyter", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg" },
-  { name: "MongoDB", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
+  { name: "TensorFlow", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" },
+  { name: "LangChain", icon: "https://raw.githubusercontent.com/langchain-ai/langchain/master/docs/static/img/langchain_logo.png" },
+  
+  // Database
+  { name: "MySQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
   { name: "PostgreSQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
+  { name: "MongoDB", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
+  
+  // Version Control & Tools
+  { name: "Git", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
+  { name: "GitHub", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+  
+  // Cloud & DevOps
   { name: "AWS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" },
   { name: "Docker", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
-  { name: "GitHub", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original-wordmark.svg" },
 ];
-
-function SkillIcon({ position, skill }: { position: [number, number, number]; skill: Skill }) {
-  const isDarkIcon = ["Next.js", "Express.js", "AWS", "GitHub"].includes(skill.name);
-  
-  return (
-    <Html position={position} center distanceFactor={10} transition style={{ pointerEvents: "none" }}>
-      <div className="flex flex-col items-center group select-none">
-        <div className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-[#0a0a0a]/50 backdrop-blur-sm rounded-lg border border-white/5 p-2 transition-all duration-300 group-hover:scale-110 group-hover:border-[#B19EEF]/30">
-          <img
-            src={skill.icon}
-            alt={skill.name}
-            className="w-full h-full object-contain"
-            style={{ filter: isDarkIcon ? "brightness(0) invert(1)" : "" }}
-          />
-        </div>
-        <span className="mt-2 text-[10px] font-mono text-white/50 bg-[#050505]/80 px-2 py-0.5 rounded-full border border-white/5 opacity-0 group-hover:opacity-100 transition-opacity">
-          {skill.name}
-        </span>
-      </div>
-    </Html>
-  );
-}
-
-function Globe() {
-  const groupRef = useRef<THREE.Group>(null);
-  
-  // Calculate positions on a sphere
-  const skillPositions = useMemo(() => {
-    const count = skills.length;
-    const pos: [number, number, number][] = [];
-    const phi = Math.PI * (3 - Math.sqrt(5)); // golden angle in radians
-
-    for (let i = 0; i < count; i++) {
-      const y = 1 - (i / (count - 1)) * 2; // y goes from 1 to -1
-      const radius = Math.sqrt(1 - y * y); // radius at y
-
-      const theta = phi * i; // golden angle increment
-
-      const x = Math.cos(theta) * radius;
-      const z = Math.sin(theta) * radius;
-
-      // Scale to sphere radius
-      pos.push([x * 5, y * 5, z * 5]);
-    }
-    return pos;
-  }, []);
-
-  useFrame((state, delta) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y += delta * 0.15; // Controlled slow rotation
-      groupRef.current.rotation.x += delta * 0.05;
-    }
-  });
-
-  return (
-    <group ref={groupRef}>
-      {/* Geodesic Wireframe Sphere */}
-      <mesh>
-        <icosahedronGeometry args={[4.8, 2]} />
-        <meshBasicMaterial 
-          color="#3d2b1f" 
-          wireframe 
-          transparent 
-          opacity={0.3} 
-        />
-      </mesh>
-      
-      {/* Inner faint glow sphere */}
-      <mesh>
-        <sphereGeometry args={[4.7, 32, 32]} />
-        <meshBasicMaterial 
-          color="#1a0f08" 
-          transparent 
-          opacity={0.2} 
-        />
-      </mesh>
-
-      {skills.map((skill, i) => (
-        <SkillIcon key={skill.name} position={skillPositions[i]} skill={skill} />
-      ))}
-    </group>
-  );
-}
 
 export default function SkillGlobe() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Suppress Three.js Clock deprecation warning
-    const originalWarn = console.warn;
-    console.warn = (...args) => {
-      if (args[0] && typeof args[0] === 'string' && args[0].includes('THREE.Clock: This module has been deprecated')) {
-        return;
-      }
-      originalWarn(...args);
-    };
-
     setMounted(true);
-
-    return () => {
-      console.warn = originalWarn;
-    };
   }, []);
 
   if (!mounted) {
     return (
       <div className="h-[500px] w-full flex items-center justify-center text-white/20 font-mono text-sm tracking-widest animate-pulse">
-        INITIALIZING TECH UNIVERSE...
+        CALIBRATING TECH UNIVERSE...
       </div>
     );
   }
 
-  return (
-    <div className="relative w-full h-[600px] cursor-grab active:cursor-grabbing">
-      <Canvas
-        camera={{ position: [0, 0, 15], fov: 45 }}
-        dpr={[1, 2]}
-      >
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} />
-        
-        <Globe />
-        
-        <OrbitControls 
-          enableZoom={false} 
-          enablePan={false}
-          autoRotate={false} // We handle rotation in useFrame for more control
-          rotateSpeed={0.5}
+  const icons = skills.map((skill, index) => {
+    const isDarkIcon = ["AWS", "GitHub"].includes(skill.name);
+    
+    return (
+      <a key={index} href="#" onClick={(e) => e.preventDefault()} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <img
+          height="50"
+          width="50"
+          src={skill.icon}
+          alt={skill.name}
+          crossOrigin="anonymous"
+          style={{
+            filter: isDarkIcon ? "brightness(0) invert(1)" : "none",
+            display: 'block',
+            margin: '0 auto'
+          }}
         />
-      </Canvas>
+        <span style={{ 
+          color: 'rgba(255,255,255,0.7)', 
+          fontSize: '11px', 
+          fontFamily: 'monospace',
+          display: 'block',
+          marginTop: '4px',
+          textAlign: 'center'
+        }}>
+          {skill.name}
+        </span>
+      </a>
+    );
+  });
+
+  return (
+    <div className="relative flex items-center justify-center cursor-grab active:cursor-grabbing pb-12 w-full max-w-4xl mx-auto overflow-hidden min-h-[600px]">
+      {/* Central Glow Effect */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-[300px] h-[300px] bg-[#B19EEF]/5 rounded-full blur-[100px]"></div>
+      </div>
       
-      {/* Gradient overlays to fade the globe into the background */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#050505] via-transparent to-[#050505] opacity-60"></div>
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-[#050505] via-transparent to-[#050505] opacity-60"></div>
+      {/* Detailed Rotating Wireframe Globe Background */}
+      <div className="absolute inset-0 flex items-center justify-center opacity-30 pointer-events-none p-10">
+        <div className="relative w-[550px] h-[550px] animate-[spin_60s_linear_infinite]">
+          <svg viewBox="0 0 100 100" className="w-full h-full stroke-[#B19EEF]/20 fill-none">
+            {/* Latitude lines */}
+            <circle cx="50" cy="50" r="48" strokeWidth="0.2" />
+            <ellipse cx="50" cy="50" rx="48" ry="20" strokeWidth="0.1" />
+            <ellipse cx="50" cy="50" rx="48" ry="35" strokeWidth="0.1" />
+            
+            {/* Longitude lines */}
+            <ellipse cx="50" cy="50" rx="20" ry="48" strokeWidth="0.1" />
+            <ellipse cx="50" cy="50" rx="35" ry="48" strokeWidth="0.1" />
+            <line x1="50" y1="2" x2="50" y2="98" strokeWidth="0.1" />
+            <line x1="2" y1="50" x2="98" y2="50" strokeWidth="0.1" />
+          </svg>
+        </div>
+      </div>
+      
+      <Cloud {...cloudProps}>{icons}</Cloud>
     </div>
   );
 }
