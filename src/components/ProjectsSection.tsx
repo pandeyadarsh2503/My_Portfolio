@@ -33,7 +33,7 @@ const projects: Project[] = [
     title: "Sahyogi",
     href: "https://github.com",
     descTitle: "Elderly Care Companion",
-    description: "Full-stack companion app with fall detection, emergency alerts, and prescription scanning. Includes Google Calendar API sync for schedule management.",
+    description: "Elderly care companion app with fall detection, emergency alerts, and prescription scanning. Includes Google Calendar API sync for schedule management.",
     stack: ["React", "MongoDB", "Python", "MediaPipe"],
     color: "#00D9FF",
     gradientFrom: "rgba(0,217,255,0.15)",
