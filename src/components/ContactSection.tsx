@@ -36,7 +36,7 @@ export default function ContactSection() {
 
         <div className="mt-10">
           <a 
-            href="mailto:pandeyadarsh2503@gmail.com" 
+            href="mailto:pandeyadarsh2503.com" 
             className="inline-flex items-center gap-3 px-8 py-4 rounded-xl glass border border-white/10 hover:border-[#00f0ff]/30 transition-all duration-300 group"
           >
             <span className="text-[#10b981] font-mono text-sm">❯</span>
