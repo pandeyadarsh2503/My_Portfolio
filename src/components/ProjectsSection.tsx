@@ -54,7 +54,7 @@ const projects: Project[] = [
   {
     id: "shoplifting",
     number: "04",
-    title: "Shoplifting Detection",
+    title: "Real Time Voice Multilingual AI Agent",
     href: "https://github.com",
     descTitle: "Computer Vision Security",
     description: "Computer vision system utilizing deep learning to automatically identify suspicious behaviors in retail surveillance footage to minimize theft.",
