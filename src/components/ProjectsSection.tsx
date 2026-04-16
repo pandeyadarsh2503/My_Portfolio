@@ -30,7 +30,7 @@ const projects: Project[] = [
   {
     id: "sahara",
     number: "02",
-    title: "SAHARA",
+    title: "Sahyogi",
     href: "https://github.com",
     descTitle: "Elderly Care Companion",
     description: "Full-stack companion app with fall detection, emergency alerts, and prescription scanning. Includes Google Calendar API sync for schedule management.",
