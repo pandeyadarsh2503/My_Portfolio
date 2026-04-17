@@ -14,7 +14,7 @@ export default function AboutSection() {
         <div className="mt-1 mb-4">
           <p className="text-[#00f0ff] mb-2 font-bold">Available commands:</p>
           <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1">
-            <span className="text-[#00f0ff]">about</span> <span className="text-white/60">— Who am I</span>
+            <span className="text-[#00f0ff]">Summary</span> <span className="text-white/60">— Who am I</span>
             <span className="text-[#00f0ff]">education</span> <span className="text-white/60">— Academic background</span>
             <span className="text-[#00f0ff]">contact</span> <span className="text-white/60">— Get in touch</span>
             <span className="text-[#00f0ff]">achievements</span> <span className="text-white/60">— Awards & milestones</span>
